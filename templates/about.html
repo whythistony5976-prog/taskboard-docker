@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}About{% endblock %}{% block content %}
+<h1>About</h1>
+<p>Taskboard is a small Flask app that stores tasks in SQLite. It runs in Docker with gunicorn, and your tasks live in a Docker volume, so they survive restarts and rebuilds.</p>
+<p>Health check: <a href="{{ url_for('health') }}">/health</a></p>
+{% endblock %}

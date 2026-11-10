@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+<h1>Tasks</h1>
+<form class="add" method="post" action="{{ url_for('add') }}">
+  <input name="title" placeholder="What needs doing?" required maxlength="120" aria-label="Task title">
+  <select name="priority" aria-label="Priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
+  <button>Add task</button>
+</form>
+<p class="filters">{% for key, label in [('all','All'),('open','Open'),('done','Done')] %}
+<a href="?show={{ key }}" {% if show == key %}aria-current="true"{% endif %}>{{ label }}</a>{% endfor %}</p>
+{% if not tasks %}<p class="empty">No tasks here yet. Add one above.</p>{% endif %}
+<ul class="tasks">{% for t in tasks %}
+<li class="{{ 'done' if t.done }}">
+  <form method="post" action="{{ url_for('toggle', task_id=t.id) }}"><button class="check" aria-label="{{ 'Reopen' if t.done else 'Complete' }} task">{{ '✓' if t.done }}</button></form>
+  <span class="title">{{ t.title }}</span><span class="tag {{ t.priority }}">{{ t.priority }}</span>
+  <form method="post" action="{{ url_for('delete', task_id=t.id) }}"><button class="del" aria-label="Delete task">Delete</button></form>
+</li>{% endfor %}</ul>{% endblock %}
